@@ -1,0 +1,15 @@
+{
+  "name": "extractor-template-journal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pencari jurnal dan template artikel dari Sinta, DOAJ, OpenAlex, dan Scopus.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "npx serve ."
+  }
+}
