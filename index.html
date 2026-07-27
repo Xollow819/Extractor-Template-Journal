@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pencari Template Jurnal: Sinta ke Scopus</title>
+<meta name="description" content="Cari jurnal dari Sinta sampai Scopus, lalu buka panduan penulis dan template artikel resminya.">
+<style>
+:root{
+  --text:#2C2C2B; --text2:#7D7A75; --canvas:#FFFFFF; --soft:#F9F8F7; --soft2:#F0EFED;
+  --border:#E6E5E3; --blue:#2783DE; --blue-soft:#E5F2FC; --green:#46A171; --green-soft:#E8F1EC;
+  --orange:#D5803B; --orange-soft:#FBEBDE; --red:#E56458; --red-soft:#FCE9E7; --radius:8px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --text:#FFFFFF; --text2:rgba(255,255,255,.65); --canvas:#191919; --soft:#202020; --soft2:#383836;
+    --border:rgba(255,255,255,.2); --blue:#5E9FE8; --blue-soft:rgba(94,159,232,.12);
+    --green:#72BC8F; --green-soft:rgba(114,188,143,.12); --orange:#DE9255; --orange-soft:rgba(222,146,85,.12);
+    --red:#E97366; --red-soft:rgba(233,115,102,.12);
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--text);
+  font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1060px;margin:0 auto;padding:24px}
+header.top{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;margin-bottom:20px}
+h1{font-size:26px;line-height:1.25;margin:0;letter-spacing:-.01em}
+.sub{color:var(--text2);font-size:14px;margin:4px 0 0}
+.panel{background:var(--soft);border:1px solid var(--border);border-radius:12px;padding:16px}
+.searchrow{display:flex;gap:8px;flex-wrap:wrap}
+input,select,button,textarea{font:inherit;color:inherit}
+input[type=text],input[type=password],select,textarea{
+  background:var(--canvas);border:1px solid var(--border);border-radius:var(--radius);padding:11px 12px;min-height:44px;width:100%}
+input:focus,select:focus,button:focus-visible,textarea:focus{outline:2px solid var(--blue);outline-offset:1px}
+.searchrow .grow{flex:1 1 320px}
+.searchrow .field{flex:0 1 200px}
+button{cursor:pointer;border-radius:var(--radius);border:1px solid var(--border);background:var(--canvas);
+  padding:11px 16px;min-height:44px}
+button.primary{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+button.ghost{background:transparent}
+button:hover{border-color:var(--blue)}
+.srcrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.chk{display:inline-flex;gap:8px;align-items:center;background:var(--canvas);border:1px solid var(--border);
+  border-radius:999px;padding:8px 14px;min-height:44px;font-size:14px;cursor:pointer}
+.chk input{width:auto;min-height:0;margin:0}
+.chk[data-on="true"]{border-color:var(--blue);background:var(--blue-soft)}
+details.adv{margin-top:12px}
+details.adv summary{cursor:pointer;font-size:14px;color:var(--text2);padding:6px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+label.lbl{display:block;font-size:13px;color:var(--text2);margin-bottom:6px}
+.hint{font-size:13px;color:var(--text2);margin:6px 0 0}
+.status{margin:20px 0 8px;font-size:14px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.notice{border:1px solid var(--border);border-left:3px solid var(--orange);background:var(--orange-soft);
+  border-radius:var(--radius);padding:12px 14px;font-size:14px;margin:16px 0}
+.notice.info{border-left-color:var(--blue);background:var(--blue-soft)}
+.notice.err{border-left-color:var(--red);background:var(--red-soft)}
+.notice a{color:inherit}
+.cards{display:grid;gap:12px;margin-top:8px}
+.card{border:1px solid var(--border);border-radius:12px;background:var(--canvas);padding:18px;
+  box-shadow:0 1px 2px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.04)}
+.card h3{margin:0 0 6px;font-size:18px;line-height:1.35}
+.meta{color:var(--text2);font-size:14px;margin:0 0 12px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.badge{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);color:var(--text2)}
+.badge.b{background:var(--blue-soft);border-color:transparent;color:var(--blue)}
+.badge.g{background:var(--green-soft);border-color:transparent;color:var(--green)}
+.badge.o{background:var(--orange-soft);border-color:transparent;color:var(--orange)}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links a{font-size:14px;text-decoration:none;border:1px solid var(--border);border-radius:var(--radius);
+  padding:9px 12px;min-height:40px;display:inline-flex;align-items:center;color:var(--text)}
+.links a:hover{border-color:var(--blue);color:var(--blue)}
+.links a.key{background:var(--blue-soft);border-color:transparent;color:var(--blue);font-weight:600}
+.empty{border:1px dashed var(--border);border-radius:12px;padding:36px 20px;text-align:center;color:var(--text2)}
+.empty strong{display:block;color:var(--text);font-size:16px;margin-bottom:6px}
+footer{margin:32px 0 8px;color:var(--text2);font-size:13px;border-top:1px solid var(--border);padding-top:16px}
+.skel{height:96px;border-radius:12px;background:var(--soft2);opacity:.6}
+@media (max-width:640px){.wrap{padding:16px}h1{font-size:22px}.grid2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div>
+    <h1>Pencari Template Jurnal</h1>
+    <p class="sub">Cari jurnal dari Sinta sampai Scopus, lalu tarik panduan penulis dan file template resminya.</p>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="ghost" id="demoBtn">Lihat contoh tampilan</button>
+    <button class="ghost" id="csvBtn">Unduh CSV</button>
+  </div>
+</header>
+
+<section class="panel">
+  <div class="searchrow">
+    <div class="grow"><input type="text" id="q" placeholder="Kata kunci: agroforestri, hidrologi, ekonomi pembangunan..." aria-label="Kata kunci pencarian jurnal"></div>
+    <div class="field">
+      <select id="field" aria-label="Bidang ilmu">
+        <option value="">Semua bidang</option>
+        <option value="agricultural sciences">Pertanian</option>
+        <option value="forestry">Kehutanan</option>
+        <option value="environmental science">Lingkungan</option>
+        <option value="water resources">Sumber daya air</option>
+        <option value="economics">Ekonomi</option>
+        <option value="social sciences">Sosial humaniora</option>
+        <option value="engineering">Teknik</option>
+        <option value="computer science">Komputer</option>
+        <option value="medicine">Kesehatan</option>
+        <option value="education">Pendidikan</option>
+        <option value="biology">Biologi</option>
+        <option value="chemistry">Kimia</option>
+        <option value="physics">Fisika</option>
+        <option value="mathematics">Matematika</option>
+      </select>
+    </div>
+    <button class="primary" id="go">Cari</button>
+  </div>
+
+  <div class="srcrow" id="srcRow">
+    <span class="sub" style="margin:0 4px 0 0">Sumber:</span>
+    <label class="chk" data-on="true"><input type="checkbox" id="sDoaj" checked> DOAJ</label>
+    <label class="chk" data-on="true"><input type="checkbox" id="sOa" checked> OpenAlex</label>
+    <label class="chk" data-on="true"><input type="checkbox" id="sScopus" checked> Scopus</label>
+    <label class="chk" data-on="true"><input type="checkbox" id="sSinta" checked> Sinta</label>
+  </div>
+
+  <details class="adv">
+    <summary>Pengaturan lanjutan</summary>
+    <div class="grid2">
+      <div>
+        <label class="lbl" for="proxy">URL proxy Sinta (opsional)</label>
+        <input type="text" id="proxy" placeholder="Kosongkan bila memakai /api/sinta">
+        <p class="hint">Saat aplikasi berjalan di Vercel, Sinta diambil lewat fungsi bawaan <code>/api/sinta</code>. Isi kolom ini hanya bila Anda memakai proxy sendiri.</p>
+      </div>
+      <div>
+        <label class="lbl" for="apikey">Elsevier API key (opsional)</label>
+        <input type="password" id="apikey" placeholder="Kosongkan bila kunci sudah di Vercel">
+        <p class="hint">Cara aman: simpan kunci sebagai environment variable <code>SCOPUS_API_KEY</code> di Vercel. Kunci yang diisi di sini hanya tersimpan di browser Anda.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+<div class="status" id="status" role="status" aria-live="polite"></div>
+<div id="notices"></div>
+<div class="cards" id="results"></div>
+
+<div class="empty" id="empty">
+  <strong>Belum ada pencarian</strong>
+  Masukkan kata kunci bidang Anda, lalu setiap jurnal akan tampil bersama tautan panduan penulis, halaman submission, dan berkas template.
+</div>
+
+<footer>
+  DOAJ dan OpenAlex diakses langsung dari browser. Sinta dan Scopus ditangani fungsi serverless agar tidak terhalang kebijakan lintas domain. Semua data dapat ditelusuri kembali ke situs resmi jurnal.
+</footer>
+</div>
+
+<script>
+const el = id => document.getElementById(id);
+const results = el('results'), status = el('status'), notices = el('notices'), empty = el('empty');
+const ONLINE = location.protocol === 'http:' || location.protocol === 'https:';
+let CURRENT = [];
+
+for (const c of document.querySelectorAll('.chk input')) {
+  c.addEventListener('change', () => c.closest('.chk').dataset.on = String(c.checked));
+}
+for (const k of ['proxy','apikey']) {
+  const saved = localStorage.getItem('jtf_'+k); if (saved) el(k).value = saved;
+  el(k).addEventListener('change', () => localStorage.setItem('jtf_'+k, el(k).value.trim()));
+}
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const host = u => { try { return new URL(u).origin } catch { return '' } };
+const gq = s => 'https://www.google.com/search?q=' + encodeURIComponent(s);
+
+function note(msg, kind='info'){
+  const d = document.createElement('div');
+  d.className = 'notice ' + kind; d.innerHTML = msg; notices.appendChild(d);
+}
+
+function templateLinks(j){
+  const out = [];
+  if (j.guidelines) out.push(['Panduan penulis', j.guidelines, true]);
+  const h = host(j.homepage);
+  if (h) {
+    out.push(['Situs jurnal', h, false]);
+    out.push(['Halaman submission', h + '/about/submissions', false]);
+  }
+  const name = j.title || '';
+  out.push(['Cari file template', gq('"' + name + '" template artikel OR author guidelines filetype:doc OR filetype:docx'), false]);
+  if (j.sinta) out.push(['Profil Sinta', j.sinta, false]);
+  else out.push(['Cek di Sinta', 'https://sinta.kemdikbud.go.id/journals/?q=' + encodeURIComponent(name), false]);
+  if (j.issn) out.push(['Cek di Scopus', 'https://www.scopus.com/sources.uri?searchTerm=' + encodeURIComponent(j.issn), false]);
+  return out;
+}
+
+function card(j){
+  const badges = [];
+  if (j.scopus) badges.push(['Terindeks Scopus','g']);
+  if (j.sintaRank) badges.push(['Sinta ' + j.sintaRank,'b']);
+  if (j.inDoaj) badges.push(['DOAJ','b']);
+  if (j.oa) badges.push(['Akses terbuka','g']);
+  if (j.apc === false) badges.push(['Tanpa APC','g']);
+  if (j.apc === true) badges.push(['Berbayar (APC)','o']);
+  if (j.quartile) badges.push([j.quartile,'g']);
+  if (j.source) badges.push(['sumber: ' + j.source,'']);
+
+  const meta = [j.publisher, j.country, j.issn && 'ISSN ' + j.issn, j.language, j.works && j.works + ' artikel']
+    .filter(Boolean).join(' &middot; ');
+
+  const d = document.createElement('article');
+  d.className = 'card';
+  d.innerHTML = '<h3>' + esc(j.title) + '</h3>' +
+    '<p class="meta">' + (meta || 'Metadata terbatas') + '</p>' +
+    '<div class="badges">' + badges.map(b => '<span class="badge ' + b[1] + '">' + esc(b[0]) + '</span>').join('') + '</div>' +
+    '<div class="links">' + templateLinks(j).map(l =>
+      '<a class="' + (l[2] ? 'key' : '') + '" href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + '</a>').join('') + '</div>';
+  return d;
+}
+
+async function fromDoaj(q){
+  const url = 'https://doaj.org/api/v4/search/journals/' + encodeURIComponent(q) + '?pageSize=20';
+  const r = await fetch(url, {headers:{Accept:'application/json'}});
+  if (!r.ok) throw new Error('DOAJ ' + r.status);
+  const data = await r.json();
+  return (data.results || []).map(x => {
+    const b = x.bibjson || {};
+    return {
+      title: b.title, publisher: b.publisher && b.publisher.name, country: b.publisher && b.publisher.country,
+      issn: b.pissn || b.eissn || '', language: (b.language || [])[0], oa: true, inDoaj: true,
+      apc: b.apc ? !!b.apc.has_apc : undefined,
+      homepage: b.ref && b.ref.journal, guidelines: b.ref && b.ref.author_instructions,
+      source: 'DOAJ'
+    };
+  });
+}
+
+async function fromOpenAlex(q, scopusOnly){
+  let url = 'https://api.openalex.org/sources?search=' + encodeURIComponent(q) + '&per-page=25';
+  if (scopusOnly) url += '&filter=is_indexed_in_scopus:true';
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('OpenAlex ' + r.status);
+  const data = await r.json();
+  return (data.results || []).map(x => ({
+    title: x.display_name, publisher: x.host_organization_name, country: x.country_code,
+    issn: (x.issn || [])[0] || x.issn_l, oa: x.is_oa, inDoaj: x.is_in_doaj,
+    scopus: x.is_indexed_in_scopus, apc: x.apc_usd ? true : undefined,
+    works: x.works_count, homepage: x.homepage_url, source: scopusOnly ? 'Scopus via OpenAlex' : 'OpenAlex'
+  }));
+}
+
+async function fromSintaProxy(q, proxy){
+  const target = 'https://sinta.kemdikbud.go.id/journals/?q=' + encodeURIComponent(q);
+  const r = await fetch(proxy + encodeURIComponent(target));
+  if (!r.ok) throw new Error('Sinta ' + r.status);
+  const doc = new DOMParser().parseFromString(await r.text(), 'text/html');
+  const out = [];
+  for (const a of doc.querySelectorAll('a[href*="/journals/profile/"]')) {
+    const title = a.textContent.trim();
+    if (!title || out.some(j => j.title === title)) continue;
+    const txt = a.closest('div') ? a.closest('div').textContent : '';
+    const rank = (txt.match(/S[1-6]\b/) || [])[0];
+    out.push({title, issn: (txt.match(/\d{4}-\d{3}[\dXx]/) || [])[0],
+      sintaRank: rank && rank.slice(1),
+      sinta: new URL(a.getAttribute('href'), target).href, source: 'Sinta'});
+  }
+  return out;
+}
+
+async function fromSintaApi(q){
+  const r = await fetch('/api/sinta?q=' + encodeURIComponent(q));
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || ('Sinta ' + r.status));
+  return data.results || [];
+}
+
+async function fromScopusClient(q, key){
+  const url = 'https://api.elsevier.com/content/serial/title?count=25&query=' + encodeURIComponent(q) + '&apiKey=' + encodeURIComponent(key);
+  const r = await fetch(url, {headers:{Accept:'application/json'}});
+  if (!r.ok) throw new Error('Scopus ' + r.status);
+  const data = await r.json();
+  const list = ((data['serial-metadata-response'] || {}).entry) || [];
+  return list.map(x => ({
+    title: x['dc:title'], publisher: x.publisher, issn: x['prism:issn'] || x['prism:eIssn'],
+    scopus: true, oa: x.openaccess === '1',
+    homepage: (x.link || []).map(l => l['@href']).find(Boolean), source: 'Scopus'
+  }));
+}
+
+async function fromScopus(q, key){
+  if (key) return fromScopusClient(q, key);
+  if (ONLINE) {
+    const r = await fetch('/api/scopus?q=' + encodeURIComponent(q));
+    if (r.ok) { const d = await r.json(); return d.results || [] }
+  }
+  return fromOpenAlex(q, true);
+}
+
+function merge(lists){
+  const map = new Map();
+  for (const j of lists.flat()) {
+    if (!j || !j.title) continue;
+    const key = (j.issn || j.title).toLowerCase().replace(/[^a-z0-9]/g,'');
+    const prev = map.get(key);
+    if (prev) {
+      for (const k in j) if (j[k] !== undefined && j[k] !== '' && (prev[k] === undefined || prev[k] === '')) prev[k] = j[k];
+      if (j.source && !String(prev.source).includes(j.source)) prev.source += ' + ' + j.source;
+    } else map.set(key, Object.assign({}, j));
+  }
+  const score = j => (j.scopus ? 2 : 0) + (j.sintaRank ? 1 : 0);
+  return [...map.values()].sort((a,b) => score(b) - score(a));
+}
+
+async function run(){
+  const term = el('q').value.trim(), field = el('field').value;
+  if (!term && !field) { el('q').focus(); return }
+  const q = [term, field].filter(Boolean).join(' ');
+  const proxy = el('proxy').value.trim(), key = el('apikey').value.trim();
+
+  results.innerHTML = '<div class="skel"></div><div class="skel"></div>';
+  notices.innerHTML = ''; empty.style.display = 'none';
+  status.textContent = 'Mencari "' + q + '"...';
+
+  const jobs = [];
+  if (el('sDoaj').checked) jobs.push(['DOAJ', fromDoaj(q)]);
+  if (el('sOa').checked) jobs.push(['OpenAlex', fromOpenAlex(q, false)]);
+  if (el('sScopus').checked) jobs.push(['Scopus', fromScopus(q, key)]);
+  if (el('sSinta').checked) {
+    if (proxy) jobs.push(['Sinta', fromSintaProxy(q, proxy)]);
+    else if (ONLINE) jobs.push(['Sinta', fromSintaApi(q)]);
+    else note('Sinta hanya bisa diambil saat aplikasi dijalankan di server, misalnya setelah deploy ke Vercel. Sementara ini gunakan <a target="_blank" rel="noopener" href="https://sinta.kemdikbud.go.id/journals/?q=' + encodeURIComponent(q) + '">pencarian Sinta langsung</a>.');
+  }
+
+  const settled = await Promise.allSettled(jobs.map(j => j[1]));
+  const ok = [];
+  settled.forEach((s, i) => {
+    if (s.status === 'fulfilled') ok.push(s.value);
+    else note('Sumber ' + jobs[i][0] + ' gagal diakses: ' + esc(s.reason && s.reason.message || 'kesalahan jaringan') + '.', 'err');
+  });
+
+  CURRENT = merge(ok);
+  results.innerHTML = '';
+  status.textContent = CURRENT.length ? CURRENT.length + ' jurnal ditemukan untuk "' + q + '"' : 'Tidak ada hasil untuk "' + q + '"';
+  if (!CURRENT.length) { empty.style.display = 'block'; return }
+  for (const j of CURRENT) results.appendChild(card(j));
+}
+
+el('go').addEventListener('click', run);
+el('q').addEventListener('keydown', e => { if (e.key === 'Enter') run() });
+
+el('csvBtn').addEventListener('click', () => {
+  if (!CURRENT.length) { note('Belum ada hasil untuk diunduh.'); return }
+  const cols = ['title','publisher','issn','sintaRank','scopus','oa','apc','homepage','guidelines','source'];
+  const cell = v => '"' + String(v ?? '').replace(/"/g,'""') + '"';
+  const csv = [cols.join(','), ...CURRENT.map(j => cols.map(c => cell(j[c])).join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = 'jurnal-template.csv'; a.click(); URL.revokeObjectURL(a.href);
+});
+
+const DEMO = [
+  {title:'Jurnal Manajemen Hutan Tropika', publisher:'IPB University', country:'Indonesia', issn:'2087-0469',
+   language:'Inggris', oa:true, inDoaj:true, apc:false, scopus:true, sintaRank:'1', works:842,
+   homepage:'https://journal.ipb.ac.id/index.php/jmht', guidelines:'https://journal.ipb.ac.id/index.php/jmht/about/submissions', source:'contoh'},
+  {title:'Agrivita Journal of Agricultural Science', publisher:'Universitas Brawijaya', country:'Indonesia',
+   issn:'0126-0537', oa:true, inDoaj:true, apc:true, scopus:true, sintaRank:'1', works:1120,
+   homepage:'https://agrivita.ub.ac.id', source:'contoh'},
+  {title:'Jurnal Ilmu Lingkungan', publisher:'Universitas Diponegoro', country:'Indonesia', issn:'1829-8907',
+   oa:true, inDoaj:true, apc:false, sintaRank:'2', works:1540, homepage:'https://ejournal.undip.ac.id/index.php/ilmulingkungan', source:'contoh'},
+  {title:'Agroforestry Systems', publisher:'Springer Nature', country:'Belanda', issn:'0167-4366',
+   scopus:true, quartile:'CiteScore 4.1', works:3960, homepage:'https://www.springer.com/journal/10457', source:'contoh'}
+];
+
+el('demoBtn').addEventListener('click', () => {
+  notices.innerHTML = ''; empty.style.display = 'none'; results.innerHTML = '';
+  note('Mode contoh: empat jurnal di bawah adalah data statis untuk melihat tampilan hasil. Tekan Cari untuk mengambil data sebenarnya.');
+  status.textContent = '4 jurnal contoh';
+  CURRENT = DEMO.slice();
+  for (const j of DEMO) results.appendChild(card(j));
+});
+</script>
+</body>
+</html>
